@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KK's Time Tracker 🌸</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f3, #e6f3ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #ff6b81;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-box {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 240, 245, 0.5);
+            border-radius: 15px;
+            border: 2px dashed #ffb6c1;
+        }
+
+        .label {
+            color: #ff85a1;
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .time {
+            color: #4a90e2;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-left: 0.3rem;
+        }
+
+        /* Cute floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 1rem;
+            color: #ff6b81;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KK's Time Tracker 🌸</h1>
+        <div class="time-box">
+            <div class="label">KK's Time (Texas)</div>
+            <div class="time" id="texasTime">Loading...</div>
+        </div>
+        <div class="time-box">
+            <div class="label">Our Time (India)</div>
+            <div class="time" id="indiaTime">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update times
+        function updateTimes() {
+            const options = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+
+            // Texas time (CST: UTC-6)
+            const texasTime = new Date().toLocaleString('en-US', {
+                timeZone: 'America/Chicago',
+                ...options
+            });
+
+            // India time (IST: UTC+5:30)
+            const indiaTime = new Date().toLocaleString('en-US', {
+                timeZone: 'Asia/Kolkata',
+                ...options
+            });
+
+            $('#texasTime').text(texasTime + ' 🤠');
+            $('#indiaTime').text(indiaTime + ' 🇮🇳');
+        }
+
+        // Update time every second
+        setInterval(updateTimes, 1000);
+        updateTimes(); // Initial call
+
+        // Add floating hearts
+        function createHeart() {
+            const heart = $('<div class="heart">♥</div>');
+            const container = $('.container');
+            const left = Math.random() * container.width();
+            
+            heart.css({
+                left: left + 'px',
+                bottom: '-20px'
+            });
+            
+            container.append(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Create hearts every 2 seconds
+        setInterval(createHeart, 2000);
+    </script>
+</body>
+</html>
